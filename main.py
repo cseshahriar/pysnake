@@ -2,20 +2,24 @@ import time
 import pygame
 from pygame.locals import *
 
+SIZE = 40
+
 
 class Snake:
     """ snake """
 
-    def __init__(self, parent_screen):
+    def __init__(self, parent_screen, length):
+        self.length = length
         self.parent_screen = parent_screen
         self.block = pygame.image.load("resources/block.jpg").convert()
-        self.x = 100
-        self.y = 100
+        self.x = [SIZE] * length
+        self.y = [SIZE] * length
         self.direction = 'down'
 
     def draw(self):
         self.parent_screen.fill((110, 110, 5))  # clear the state
-        self.parent_screen.blit(self.block, (self.x, self.y))
+        for i in range(self.length):
+            self.parent_screen.blit(self.block, (self.x[i], self.y[i]))
         pygame.display.flip()
 
     def move_left(self):
@@ -31,16 +35,21 @@ class Snake:
         self.direction = 'down'
 
     def walk(self):
+        for i in range(self.length - 1, 0, -1):
+            self.x[i] = self.x[i - 1]
+            self.y[i] = self.y[i - 1]
+
         if self.direction == 'up':
-            self.y -= 10
-        elif self.direction == 'down':
-            self.y += 10
-        elif self.direction == 'left':
-            self.x -= 10
-        elif self.direction == 'right':
-            self.x += 10
-        else:
-            pass
+            self.y[0] -= SIZE
+
+        if self.direction == 'down':
+            self.y[0] += SIZE
+
+        if self.direction == 'left':
+            self.x[0] -= SIZE
+
+        if self.direction == 'right':
+            self.x[0] += SIZE
 
         self.draw()
 
@@ -50,9 +59,9 @@ class Game:
 
     def __init__(self):
         pygame.init()  # py game initialize
-        self.surface = pygame.display.set_mode((500, 500))
+        self.surface = pygame.display.set_mode((1000, 800))
         self.surface.fill((110, 110, 5))  # go rgb color picker
-        self.snake = Snake(self.surface)
+        self.snake = Snake(self.surface, 6)
         self.snake.draw()
 
     def run(self):
@@ -82,7 +91,8 @@ class Game:
 
             # timer
             self.snake.walk()
-            time.sleep(0.2)
+            time.sleep(0.3)
+
 
 if __name__ == "__main__":
     game = Game()
