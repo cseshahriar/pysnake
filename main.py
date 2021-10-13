@@ -82,6 +82,8 @@ class Game:
 
     def __init__(self):
         pygame.init()  # py game initialize
+        pygame.display.set_caption("Cseshahriar Snake Game")
+        pygame.mixer.init()  # sound lib init
         self.surface = pygame.display.set_mode((800, 600))
         self.surface.fill((110, 110, 5))  # go rgb color picker
         # snake init
@@ -104,14 +106,18 @@ class Game:
         self.display_score()
         pygame.display.flip()
 
-        # snake colliding with apple
+        # snake eating apple scenario
         if self.is_collision(self.snake.x[0], self.snake.y[0], self.apple.x, self.apple.y):
+            sound = pygame.mixer.Sound("resources/ding.mp3")
+            pygame.mixer.Sound.play(sound)
             self.snake.increase_length()
             self.apple.move()
 
         # snake colliding with itself
         for i in range(3, self.snake.length):
             if self.is_collision(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
+                sound = pygame.mixer.Sound("resources/crash.mp3")
+                pygame.mixer.Sound.play(sound)
                 raise "Game Over"
 
     def display_score(self):
