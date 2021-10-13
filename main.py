@@ -5,6 +5,18 @@ from pygame.locals import *
 SIZE = 40
 
 
+class Apple:
+    def __init__(self, parent_screen):
+        self.image = pygame.image.load("resources/apple.jpg").convert()
+        self.parent_screen = parent_screen
+        self.x = SIZE * 3
+        self.y = SIZE * 3
+
+    def draw(self):
+        self.parent_screen.blit(self.image, (self.x, self.y))
+        pygame.display.flip()
+
+
 class Snake:
     """ snake """
 
@@ -59,10 +71,14 @@ class Game:
 
     def __init__(self):
         pygame.init()  # py game initialize
-        self.surface = pygame.display.set_mode((1000, 800))
+        self.surface = pygame.display.set_mode((800, 600))
         self.surface.fill((110, 110, 5))  # go rgb color picker
+        # snake init
         self.snake = Snake(self.surface, 6)
         self.snake.draw()
+        # apple init
+        self.apple = Apple(self.surface)
+        self.apple.draw()
 
     def run(self):
         running = True
@@ -91,6 +107,7 @@ class Game:
 
             # timer
             self.snake.walk()
+            self.apple.draw()
             time.sleep(0.3)
 
 
