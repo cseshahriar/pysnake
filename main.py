@@ -18,8 +18,8 @@ class Apple:
         pygame.display.flip()
 
     def move(self):
-        self.x = random.randint(1, 20) * SIZE
-        self.y = random.randint(1, 15) * SIZE
+        self.x = random.randint(1, 19) * SIZE
+        self.y = random.randint(1, 14) * SIZE
 
 
 class Snake:
@@ -38,6 +38,11 @@ class Snake:
         for i in range(self.length):
             self.parent_screen.blit(self.block, (self.x[i], self.y[i]))
         pygame.display.flip()
+
+    def increase_length(self):
+        self.length += 1
+        self.x.append(-1)
+        self.y.append(-1)
 
     def move_left(self):
         self.direction = 'left'
@@ -79,15 +84,15 @@ class Game:
         self.surface = pygame.display.set_mode((800, 600))
         self.surface.fill((110, 110, 5))  # go rgb color picker
         # snake init
-        self.snake = Snake(self.surface, 6)
+        self.snake = Snake(self.surface, 1)
         self.snake.draw()
         # apple init
         self.apple = Apple(self.surface)
         self.apple.draw()
 
     def is_collision(self, x1, y1, x2, y2):
-        if x1 >= x2 and x1 <= x2 + SIZE:
-            if y1 >= y2 and y1 <= y2 + SIZE:
+        if x1 >= x2 and x1 < x2 + SIZE:
+            if y1 >= y2 and y1 < y2 + SIZE:
                 return True
 
         return False
@@ -96,6 +101,7 @@ class Game:
         self.snake.walk()
         self.apple.draw()
         if self.is_collision(self.snake.x[0], self.snake.y[0], self.apple.x, self.apple.y):
+            self.snake.increase_length()
             self.apple.move()
 
     def run(self):
