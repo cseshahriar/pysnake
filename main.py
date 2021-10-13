@@ -35,7 +35,6 @@ class Snake:
         self.direction = 'down'
 
     def draw(self):
-        self.parent_screen.fill((110, 110, 5))  # clear the state
         for i in range(self.length):
             self.parent_screen.blit(self.block, (self.x[i], self.y[i]))
         pygame.display.flip()
@@ -109,7 +108,12 @@ class Game:
         sound = pygame.mixer.Sound(f"resources/{sound}.mp3")
         pygame.mixer.Sound.play(sound)
 
+    def render_background(self):
+        bg = pygame.image.load("resources/background.jpg")
+        self.surface.blit(bg, (0,0))
+
     def play(self):
+        self.render_background()
         self.snake.walk()
         self.apple.draw()
         self.display_score()
@@ -133,6 +137,7 @@ class Game:
         self.surface.blit(score, (600, 10))
 
     def show_game_over(self):
+        self.render_background()
         self.surface.fill(BACKGROUND_COLOR)
         font = pygame.font.SysFont('arial', 30)
         line1 = font.render(f"Game is over! Your score is {self.snake.length}", True, (225, 225, 225))
@@ -140,6 +145,7 @@ class Game:
         line2 = font.render("To play again press Enter. To exit press Escape!", True, (255, 255, 255))
         self.surface.blit(line2, (100, 150))
         pygame.display.flip()   # ui refresh
+        pygame.mixer.pause()
 
     def reset(self):
         """ re init """
@@ -153,7 +159,9 @@ class Game:
         while running:
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
+
                     if event.key == K_RETURN:
+                        pygame.mixer.unpause()
                         pause = False
 
                     if not pause:
