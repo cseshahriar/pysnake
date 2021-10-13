@@ -100,6 +100,10 @@ class Game:
 
         return False
 
+    def play_sound(self, sound: str):
+        sound = pygame.mixer.Sound(f"resources/{sound}.mp3")
+        pygame.mixer.Sound.play(sound)
+
     def play(self):
         self.snake.walk()
         self.apple.draw()
@@ -108,16 +112,14 @@ class Game:
 
         # snake eating apple scenario
         if self.is_collision(self.snake.x[0], self.snake.y[0], self.apple.x, self.apple.y):
-            sound = pygame.mixer.Sound("resources/ding.mp3")
-            pygame.mixer.Sound.play(sound)
+            self.play_sound('ding')
             self.snake.increase_length()
             self.apple.move()
 
         # snake colliding with itself
         for i in range(3, self.snake.length):
             if self.is_collision(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
-                sound = pygame.mixer.Sound("resources/crash.mp3")
-                pygame.mixer.Sound.play(sound)
+                self.play_sound('crash')
                 raise "Game Over"
 
     def display_score(self):
