@@ -84,6 +84,7 @@ class Game:
         pygame.init()  # py game initialize
         pygame.display.set_caption("Cseshahriar Snake Game")
         pygame.mixer.init()  # sound lib init
+        self.play_background_music()
         self.surface = pygame.display.set_mode((800, 600))
         self.surface.fill((110, 110, 5))  # go rgb color picker
         # snake init
@@ -99,6 +100,10 @@ class Game:
                 return True
 
         return False
+
+    def play_background_music(self):
+        pygame.mixer.music.load("resources/bg_music_1.mp3")
+        pygame.mixer.music.play()
 
     def play_sound(self, sound: str):
         sound = pygame.mixer.Sound(f"resources/{sound}.mp3")
