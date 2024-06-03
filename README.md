@@ -16,10 +16,6 @@ If it does, game should end in same way as we end it when snake collides with it
 2. Try increasing speed of snake to make game little more challenging.  Reduce the sleep time to may be 0.1 sec to achieve this.
 
 [Solution](https://github.com/codebasics/python_projects/blob/main/1_snake_game/exercise_solution.py)
-
-### Tool to convert python file to .exe
-
-I used below tool to convert python file to .exe file
-
-https://pypi.org/project/auto-py-to-exe/
+# run
+- python3 main.py
 
