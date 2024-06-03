@@ -17,7 +17,7 @@ If it does, game should end in same way as we end it when snake collides with it
 
 [Solution](https://github.com/codebasics/python_projects/blob/main/1_snake_game/exercise_solution.py)
 # run
-- python3 -m venv venv
+- python3.8 -m venv venv
 - source venv/bin/activate
 - pip3 install -m requirements.txt
 - python3 main.py
